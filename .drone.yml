@@ -1,0 +1,22 @@
+labels:
+  cpus: '1'
+  ram: '512'
+  mhz: '2000'
+clone:
+  git:
+    image: 'plugins/git'
+    tags: true
+    recursive: true
+    submodule_update_remote: true
+    submodule_override:
+      docker_auth: https://github.com/cesanta/docker_auth.git
+pipeline:
+  latest:
+    image: 'plugins/docker'
+    context: '.'
+    dockerfile: 'Dockerfile'
+    secrets: ["docker_username", "docker_password"]
+    repo: '${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}'
+    tag: 'latest-droneci'
+    when:
+      branch: 'master'
